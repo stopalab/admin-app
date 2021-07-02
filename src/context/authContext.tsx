@@ -47,7 +47,25 @@ export function AuthProvider({ children }: ComponentDefaultProps) {
 
     } catch (e) {
 
-      console.log(e)
+      if(e.response.status) {
+        toast({
+          title: "Algo seu errado",
+          description: "Usuário ou senha inválidos, cheque suas credenciais e tente novamente",
+          status: "error",
+          position: "top-right",
+          isClosable: true
+        })
+      } else {
+        toast({
+          title: "Algo seu errado",
+          description: "Ocorreu um erro inesperado, tente novamente mais tarde.",
+          status: "error",
+          position: "top-right",
+          isClosable: true
+        })
+      }
+
+      
 
     }
   }

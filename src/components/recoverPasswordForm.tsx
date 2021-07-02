@@ -13,7 +13,11 @@ import * as yup from 'yup';
 import { errors } from '../helpers/strings';
 import { api } from '../services/api';
 interface FormInitialValues {
-  email: string;
+  password: string;
+}
+
+interface RecoverPasswordFormProps {
+  token: string
 }
 
 const yupSchema = yup.object().shape({
@@ -22,26 +26,29 @@ const yupSchema = yup.object().shape({
     .email(errors.login.invalidEmail)
     .required(errors.requiredField('e-mail')),
 });
-export function ForgotPasswordForm() {
+export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   const formikInitialValues: FormInitialValues = {
-    email: '',
+    password: '',
   };
+
   async function handleSubmit(values: FormInitialValues, actions: FormikHelpers<FormInitialValues>) {
-    setLoading(true);
+    console.log('oi')
+   setLoading(true);
 
     try {
-      const response = await api.post('/users/forgot-password', {
-        email: values.email,
+      const response = await api.post('/users/recover-password', {
+        newPassword: values.password,
+        token
       });
 
       console.log(response.data);
 
       toast({
-        description: 'Enviamos um link para recuperação para seu e-mail',
+        description: 'Senha recuperada com sucesso',
         title: 'Tudo certo!',
         status: 'success',
         position: "top-right",
@@ -49,7 +56,7 @@ export function ForgotPasswordForm() {
       });
       actions.resetForm({
         values: {
-          email: ""
+          password: ""
         }
       })
       
@@ -83,23 +90,23 @@ export function ForgotPasswordForm() {
       >
         {(props: FormikProps<FormInitialValues>) => (
           <Flex as={Form} flexDir="column" w="100%">
-            <Field name="email">
+            <Field name="password">
               {({ field, form }: FieldProps) => (
                 <FormControl
-                  isInvalid={Boolean(form.errors.email && form.touched.email)}
+                  isInvalid={Boolean(form.errors.password && form.touched.password)}
                 >
                   <InputGroup flexDir="column" mt="24px">
-                    <FormLabel size="lg" htmlFor="email">
-                      E-mail
+                    <FormLabel size="lg" htmlFor="password">
+                      Nova Senha
                     </FormLabel>
                     <Input
                       {...field}
-                      id="email"
-                      placeholder="Digite seu e-mail"
+                      id="password"
+                      placeholder="Digite sua nova senha"
                       size="lg"
-                      type="email"
+                      type="password"
                     />
-                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </InputGroup>
                 </FormControl>
               )}

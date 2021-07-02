@@ -4,6 +4,8 @@ import {
   FormErrorMessage,
   Button,
   Flex,
+  toast,
+  useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field, FormikProps, FieldProps } from 'formik';
 import { Input, InputGroup } from '@chakra-ui/input';
@@ -13,35 +15,25 @@ import { errors } from '../helpers/strings';
 import { api } from '../services/api';
 import { AuthContext } from '../context/authContext';
 interface FormInitialValues {
-  email: string;
   password: string;
 }
 
 const yupSchema = yup.object().shape({
-  email: yup.string().email(errors.login.invalidEmail).required(errors.requiredField("e-mail")),
-  password: yup.string(). required(errors.requiredField("senha"))
+  password: yup.string(). required(errors.requiredField("senha")).min(6, "A senha deve conter no mínimo 6 caracteres")
 })
 export function LoginForm() {
   const [loading, setLoading] = useState(false)
 
   const { signIn } = useContext(AuthContext)
+  const toast = useToast();
   const formikInitialValues: FormInitialValues = {
-    email: '',
     password: '',
   };
   async function handleSubmitLogin(values: FormInitialValues) {
-    setLoading(true)
-
-    try{
-      await signIn({
-        email: values.email,
-        password: values.password
-      })
-
-    } catch (e) {
-      console.log('Deu merda')
-      console.log(e)
-    }
+    setLoading(true);
+    await signIn({
+      password: values.password
+    });
 
     setLoading(false)
   }

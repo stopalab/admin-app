@@ -1,16 +1,23 @@
+
 import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react';
 import { Fragment } from 'react';
-import { LoginForm } from '../components/loginForm';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
 import NextLink from 'next/link';
-import { ForgotPasswordForm } from '../components/forgotPasswordForm';
-function Login() {
+import { RecoverPasswordForm } from '../components/recoverPasswordForm';
+import { useRouter } from 'next/router';
+
+interface RecoverPasswordPageProps {
+  token: string
+}
+export default function RecoverPasswordPage() {
+
+  const { query } = useRouter()
+
+  const {t: token} = query 
   return (
     <Fragment>
       <Head>
-        <title>StopaLab Admin - Recuperar Senha</title>
+        <title>StopaLab Admin - Redefinir Senha</title>
       </Head>
       <Grid
         as="main"
@@ -35,10 +42,10 @@ function Login() {
           <Image src="images/stopalab.svg" w="200px" />
           <Flex mt="36px">
             <Text fontWeight="bold" fontSize="xx-large">
-              Recuperar senha
+              Redefinir senha
             </Text>
           </Flex>
-          <ForgotPasswordForm />
+          <RecoverPasswordForm token={token?.toString() || ""} />
           <Flex>
             <Link
               as={NextLink}
@@ -71,22 +78,3 @@ function Login() {
     </Fragment>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ctx => {
-  const { stopalabAdminToken: token } = parseCookies(ctx);
-
-  if (token) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
-
-export default Login;

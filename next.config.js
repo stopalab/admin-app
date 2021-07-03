@@ -6,6 +6,10 @@ module.exports = {
           source: '/api/external/:path*',
           destination: 'https://stopalab-admin.herokuapp.com/:path*',
         },
+        {
+          source: '/',
+          destination: '/login'
+        }
       ]
     },
 };

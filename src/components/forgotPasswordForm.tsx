@@ -70,7 +70,7 @@ export function ForgotPasswordForm() {
     <Flex
       w="100%"
       flexDir="column"
-      padding="50px"
+      paddingX="50px"
       alignItems="center"
       justifyContent="center"
     >

@@ -3,7 +3,7 @@ import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { RecoverPasswordForm } from '../components/recoverPasswordForm';
+import { ResetPasswordForm } from '../components/recoverPasswordForm';
 import { useRouter } from 'next/router';
 
 interface RecoverPasswordPageProps {
@@ -41,11 +41,11 @@ export default function RecoverPasswordPage() {
         >
           <Image src="images/stopalab.svg" w="200px" />
           <Flex mt="36px">
-            <Text fontWeight="bold" fontSize="xx-large">
+            <Text fontWeight="bold" fontSize="x-large">
               Redefinir senha
             </Text>
           </Flex>
-          <RecoverPasswordForm token={token?.toString() || ""} />
+          <ResetPasswordForm token={token ? token.toString() : ""} />
           <Flex>
             <Link
               as={NextLink}

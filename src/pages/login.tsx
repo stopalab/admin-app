@@ -41,7 +41,7 @@ function Login() {
         >
           <Image src="images/stopalab.svg" w="200px" />
           <Flex mt="36px">
-            <Text fontWeight="bold" fontSize="xx-large">
+            <Text fontWeight="bold" fontSize="x-large">
               Login
             </Text>
           </Flex>

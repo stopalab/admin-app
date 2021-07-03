@@ -12,21 +12,21 @@ import { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import { errors } from '../helpers/strings';
 import { api } from '../services/api';
+
+interface ResetPasswordFormProps {
+  token: string
+}
 interface FormInitialValues {
   password: string;
 }
 
-interface RecoverPasswordFormProps {
-  token: string
-}
-
 const yupSchema = yup.object().shape({
-  email: yup
+  password: yup
     .string()
-    .email(errors.login.invalidEmail)
-    .required(errors.requiredField('e-mail')),
+    .min(6, "A senha deve conter pelo menos 6 cartacteres")
+    .required(errors.requiredField('senha')),
 });
-export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
+export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
@@ -34,21 +34,20 @@ export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
   const formikInitialValues: FormInitialValues = {
     password: '',
   };
-
   async function handleSubmit(values: FormInitialValues, actions: FormikHelpers<FormInitialValues>) {
-    console.log('oi')
-   setLoading(true);
+    console.log(token)
+    setLoading(true);
 
     try {
       const response = await api.post('/users/recover-password', {
+        token,
         newPassword: values.password,
-        token
       });
 
       console.log(response.data);
 
       toast({
-        description: 'Senha recuperada com sucesso',
+        description: 'Senha resetada com sucesso.',
         title: 'Tudo certo!',
         status: 'success',
         position: "top-right",
@@ -63,9 +62,9 @@ export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
     } catch (e) {
       toast({
         description:
-          'Ocorreu um erro ao tentar recuperar sua senha verifique o seu endereço de email e tente novamente',
+          'Ocorreu um erro ao tentar redefinir sua senha verifique e tente novamente',
         title: 'Algo deu errado...',
-        status: 'success',
+        status: 'error',
         position: "top-right",
         isClosable: true
       });
@@ -77,7 +76,7 @@ export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
     <Flex
       w="100%"
       flexDir="column"
-      padding="50px"
+      paddingX="50px"
       alignItems="center"
       justifyContent="center"
     >
@@ -93,11 +92,11 @@ export function RecoverPasswordForm( { token }: RecoverPasswordFormProps) {
             <Field name="password">
               {({ field, form }: FieldProps) => (
                 <FormControl
-                  isInvalid={Boolean(form.errors.password && form.touched.password)}
+                  isInvalid={Boolean(form.errors.email && form.touched.email)}
                 >
                   <InputGroup flexDir="column" mt="24px">
-                    <FormLabel size="lg" htmlFor="password">
-                      Nova Senha
+                    <FormLabel size="lg" htmlFor="email">
+                      Nova senha
                     </FormLabel>
                     <Input
                       {...field}

@@ -16,6 +16,7 @@ import { api } from '../services/api';
 import { AuthContext } from '../context/authContext';
 interface FormInitialValues {
   password: string;
+  email: string;
 }
 
 const yupSchema = yup.object().shape({
@@ -28,11 +29,13 @@ export function LoginForm() {
   const toast = useToast();
   const formikInitialValues: FormInitialValues = {
     password: '',
+    email: ''
   };
   async function handleSubmitLogin(values: FormInitialValues) {
     setLoading(true);
     await signIn({
-      password: values.password
+      password: values.password,
+      email: values.email,
     });
 
     setLoading(false)
@@ -41,7 +44,7 @@ export function LoginForm() {
     <Flex
       w="100%"
       flexDir="column"
-      padding="50px"
+      paddingX="50px"
       alignItems="center"
       justifyContent="center"
     >

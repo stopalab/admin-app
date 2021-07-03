@@ -30,7 +30,7 @@ interface FormInitialValues {
 const yupSchema = yup.object().shape({
   password: yup
     .string()
-    .min(6, 'A senha deve conter pelo menos 6 cartacteres')
+    .min(6, 'A senha deve conter pelo menos 6 caracteres')
     .required(errors.requiredField('senha')),
 })
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
@@ -101,7 +101,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             <Field name="password">
               {({ field, form }: FieldProps) => (
                 <FormControl
-                  isInvalid={Boolean(form.errors.email && form.touched.email)}
+                  isInvalid={Boolean(
+                    form.errors.password && form.touched.password
+                  )}
                 >
                   <InputGroup flexDir="column" mt="24px">
                     <FormLabel size="lg" htmlFor="email">

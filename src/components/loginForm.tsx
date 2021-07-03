@@ -18,10 +18,7 @@ interface FormInitialValues {
 }
 
 const yupSchema = yup.object().shape({
-  password: yup
-    .string()
-    .required(errors.requiredField('senha'))
-    .min(6, 'A senha deve conter no mínimo 6 caracteres'),
+  password: yup.string().required(errors.requiredField('senha')),
 })
 export function LoginForm() {
   const [loading, setLoading] = useState(false)

@@ -4,7 +4,7 @@ module.exports = {
     return [
       {
         source: '/api/external/:path*',
-        destination: process.env.API_URL,
+        destination: 'https://stopalab-admin.herokuapp.com/',
       },
       {
         source: '/',

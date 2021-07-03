@@ -5,72 +5,81 @@ import {
   Button,
   Flex,
   useToast,
-} from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps, FieldProps, FormikHelpers } from 'formik';
-import { Input, InputGroup } from '@chakra-ui/input';
-import { useCallback, useState } from 'react';
-import * as yup from 'yup';
-import { errors } from '../helpers/strings';
-import { api } from '../services/api';
+} from '@chakra-ui/react'
+import {
+  Formik,
+  Form,
+  Field,
+  FormikProps,
+  FieldProps,
+  FormikHelpers,
+} from 'formik'
+import { Input, InputGroup } from '@chakra-ui/input'
+import { useState } from 'react'
+import * as yup from 'yup'
+import { errors } from '../helpers/strings'
+import { api } from '../services/api'
 
 interface ResetPasswordFormProps {
   token: string
 }
 interface FormInitialValues {
-  password: string;
+  password: string
 }
 
 const yupSchema = yup.object().shape({
   password: yup
     .string()
-    .min(6, "A senha deve conter pelo menos 6 cartacteres")
+    .min(6, 'A senha deve conter pelo menos 6 cartacteres')
     .required(errors.requiredField('senha')),
-});
+})
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
-  const toast = useToast();
+  const toast = useToast()
 
   const formikInitialValues: FormInitialValues = {
     password: '',
-  };
-  async function handleSubmit(values: FormInitialValues, actions: FormikHelpers<FormInitialValues>) {
+  }
+  async function handleSubmit(
+    values: FormInitialValues,
+    actions: FormikHelpers<FormInitialValues>
+  ) {
     console.log(token)
-    setLoading(true);
+    setLoading(true)
 
     try {
       const response = await api.post('/users/recover-password', {
         token,
         newPassword: values.password,
-      });
+      })
 
-      console.log(response.data);
+      console.log(response.data)
 
       toast({
         description: 'Senha resetada com sucesso.',
         title: 'Tudo certo!',
         status: 'success',
-        position: "top-right",
-        isClosable: true
-      });
+        position: 'top-right',
+        isClosable: true,
+      })
       actions.resetForm({
         values: {
-          password: ""
-        }
+          password: '',
+        },
       })
-      
     } catch (e) {
       toast({
         description:
           'Ocorreu um erro ao tentar redefinir sua senha verifique e tente novamente',
         title: 'Algo deu errado...',
         status: 'error',
-        position: "top-right",
-        isClosable: true
-      });
+        position: 'top-right',
+        isClosable: true,
+      })
     }
 
-    setLoading(false);
+    setLoading(false)
   }
   return (
     <Flex
@@ -83,11 +92,11 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       <Formik
         initialValues={formikInitialValues}
         onSubmit={(values, actions) => {
-          handleSubmit(values, actions);
+          handleSubmit(values, actions)
         }}
         validationSchema={yupSchema}
       >
-        {(props: FormikProps<FormInitialValues>) => (
+        {(_props: FormikProps<FormInitialValues>) => (
           <Flex as={Form} flexDir="column" w="100%">
             <Field name="password">
               {({ field, form }: FieldProps) => (
@@ -124,5 +133,5 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         )}
       </Formik>
     </Flex>
-  );
+  )
 }

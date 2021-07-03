@@ -1,12 +1,11 @@
-import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react';
-import { Fragment } from 'react';
-import { LoginForm } from '../components/loginForm';
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import NextLink from 'next/link';
-import { ForgotPasswordForm } from '../components/forgotPasswordForm';
-function Login() {
+import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react'
+import { Fragment } from 'react'
+import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+import { parseCookies } from 'nookies'
+import NextLink from 'next/link'
+import { ForgotPasswordForm } from '../components/forgotPasswordForm'
+export default function Login() {
   return (
     <Fragment>
       <Head>
@@ -69,11 +68,11 @@ function Login() {
         ></Flex>
       </Grid>
     </Fragment>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
-  const { stopalabAdminToken: token } = parseCookies(ctx);
+  const { stopalabAdminToken: token } = parseCookies(ctx)
 
   if (token) {
     return {
@@ -81,12 +80,10 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         destination: '/dashboard',
         permanent: false,
       },
-    };
+    }
   }
 
   return {
     props: {},
-  };
-};
-
-export default Login;
+  }
+}

@@ -1,31 +1,27 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps } from 'next'
 import { Flex } from '@chakra-ui/react'
-import { redirect } from "next/dist/next-server/server/api-utils";
-import { parseCookies } from "nookies";
+import { parseCookies } from 'nookies'
 
-export default function DasboardPage () {
+export default function DasboardPage() {
   return (
     <Flex>
       <p>Dashboard</p>
     </Flex>
   )
-  
 }
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
   const { stopalabAdminToken: token } = parseCookies(ctx)
 
-  if(!token) {
+  if (!token) {
     return {
       redirect: {
-        destination: "/login",
-        permanent: false
-      }
+        destination: '/login',
+        permanent: false,
+      },
     }
   }
 
   return {
-    props:{
-
-    }
+    props: {},
   }
 }

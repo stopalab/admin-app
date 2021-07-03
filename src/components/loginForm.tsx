@@ -4,39 +4,39 @@ import {
   FormErrorMessage,
   Button,
   Flex,
-  toast,
-  useToast,
-} from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps, FieldProps } from 'formik';
-import { Input, InputGroup } from '@chakra-ui/input';
-import { useCallback, useContext, useState } from 'react';
+} from '@chakra-ui/react'
+import { Formik, Form, Field, FormikProps, FieldProps } from 'formik'
+import { Input, InputGroup } from '@chakra-ui/input'
+import { useContext, useState } from 'react'
 import * as yup from 'yup'
-import { errors } from '../helpers/strings';
-import { api } from '../services/api';
-import { AuthContext } from '../context/authContext';
+import { errors } from '../helpers/strings'
+
+import { AuthContext } from '../context/authContext'
 interface FormInitialValues {
-  password: string;
-  email: string;
+  password: string
+  email: string
 }
 
 const yupSchema = yup.object().shape({
-  password: yup.string(). required(errors.requiredField("senha")).min(6, "A senha deve conter no mínimo 6 caracteres")
+  password: yup
+    .string()
+    .required(errors.requiredField('senha'))
+    .min(6, 'A senha deve conter no mínimo 6 caracteres'),
 })
 export function LoginForm() {
   const [loading, setLoading] = useState(false)
 
   const { signIn } = useContext(AuthContext)
-  const toast = useToast();
   const formikInitialValues: FormInitialValues = {
     password: '',
-    email: ''
-  };
+    email: '',
+  }
   async function handleSubmitLogin(values: FormInitialValues) {
-    setLoading(true);
+    setLoading(true)
     await signIn({
       password: values.password,
       email: values.email,
-    });
+    })
 
     setLoading(false)
   }
@@ -50,12 +50,12 @@ export function LoginForm() {
     >
       <Formik
         initialValues={formikInitialValues}
-        onSubmit={(values, actions) => {
+        onSubmit={(values, _actions) => {
           handleSubmitLogin(values)
         }}
         validationSchema={yupSchema}
       >
-        {(props: FormikProps<FormInitialValues>) => (
+        {(_props: FormikProps<FormInitialValues>) => (
           <Flex as={Form} flexDir="column" w="100%">
             <Field name="email">
               {({ field, form }: FieldProps) => (
@@ -82,7 +82,7 @@ export function LoginForm() {
               {({ field, form }: FieldProps) => (
                 <FormControl
                   isInvalid={Boolean(
-                    form.errors.password && form.touched.password,
+                    form.errors.password && form.touched.password
                   )}
                 >
                   <InputGroup flexDir="column" mt="24px">
@@ -101,12 +101,18 @@ export function LoginForm() {
                 </FormControl>
               )}
             </Field>
-            <Button type="submit" size="lg" mt="24px" colorScheme="blue" isLoading={loading}>
+            <Button
+              type="submit"
+              size="lg"
+              mt="24px"
+              colorScheme="blue"
+              isLoading={loading}
+            >
               Entrar
             </Button>
           </Flex>
         )}
       </Formik>
     </Flex>
-  );
+  )
 }

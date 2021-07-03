@@ -5,15 +5,22 @@ import {
   Button,
   Flex,
   useToast,
-} from '@chakra-ui/react';
-import { Formik, Form, Field, FormikProps, FieldProps, FormikHelpers } from 'formik';
-import { Input, InputGroup } from '@chakra-ui/input';
-import { useCallback, useState } from 'react';
-import * as yup from 'yup';
-import { errors } from '../helpers/strings';
-import { api } from '../services/api';
+} from '@chakra-ui/react'
+import {
+  Formik,
+  Form,
+  Field,
+  FormikProps,
+  FieldProps,
+  FormikHelpers,
+} from 'formik'
+import { Input, InputGroup } from '@chakra-ui/input'
+import { useState } from 'react'
+import * as yup from 'yup'
+import { errors } from '../helpers/strings'
+import { api } from '../services/api'
 interface FormInitialValues {
-  email: string;
+  email: string
 }
 
 const yupSchema = yup.object().shape({
@@ -21,50 +28,52 @@ const yupSchema = yup.object().shape({
     .string()
     .email(errors.login.invalidEmail)
     .required(errors.requiredField('e-mail')),
-});
+})
 export function ForgotPasswordForm() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
-  const toast = useToast();
+  const toast = useToast()
 
   const formikInitialValues: FormInitialValues = {
     email: '',
-  };
-  async function handleSubmit(values: FormInitialValues, actions: FormikHelpers<FormInitialValues>) {
-    setLoading(true);
+  }
+  async function handleSubmit(
+    values: FormInitialValues,
+    actions: FormikHelpers<FormInitialValues>
+  ) {
+    setLoading(true)
 
     try {
       const response = await api.post('/users/forgot-password', {
         email: values.email,
-      });
+      })
 
-      console.log(response.data);
+      console.log(response.data)
 
       toast({
         description: 'Enviamos um link para recuperação para seu e-mail',
         title: 'Tudo certo!',
         status: 'success',
-        position: "top-right",
-        isClosable: true
-      });
+        position: 'top-right',
+        isClosable: true,
+      })
       actions.resetForm({
         values: {
-          email: ""
-        }
+          email: '',
+        },
       })
-      
     } catch (e) {
       toast({
         description:
           'Ocorreu um erro ao tentar recuperar sua senha verifique o seu endereço de email e tente novamente',
         title: 'Algo deu errado...',
         status: 'success',
-        position: "top-right",
-        isClosable: true
-      });
+        position: 'top-right',
+        isClosable: true,
+      })
     }
 
-    setLoading(false);
+    setLoading(false)
   }
   return (
     <Flex
@@ -77,11 +86,11 @@ export function ForgotPasswordForm() {
       <Formik
         initialValues={formikInitialValues}
         onSubmit={(values, actions) => {
-          handleSubmit(values, actions);
+          handleSubmit(values, actions)
         }}
         validationSchema={yupSchema}
       >
-        {(props: FormikProps<FormInitialValues>) => (
+        {(_props: FormikProps<FormInitialValues>) => (
           <Flex as={Form} flexDir="column" w="100%">
             <Field name="email">
               {({ field, form }: FieldProps) => (
@@ -118,5 +127,5 @@ export function ForgotPasswordForm() {
         )}
       </Formik>
     </Flex>
-  );
+  )
 }

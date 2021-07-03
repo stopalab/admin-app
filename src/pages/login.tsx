@@ -1,10 +1,10 @@
-import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react';
-import { Fragment } from 'react';
-import { LoginForm } from '../components/loginForm';
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import NextLink from 'next/link';
+import { Flex, Grid, Image, Link, Text } from '@chakra-ui/react'
+import { Fragment } from 'react'
+import { LoginForm } from '../components/loginForm'
+import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+import { parseCookies } from 'nookies'
+import NextLink from 'next/link'
 function Login() {
   return (
     <Fragment>
@@ -48,7 +48,12 @@ function Login() {
           <LoginForm />
           <Flex>
             <Link as={NextLink} href="/recuperar-senha">
-              <Text color="blue.500" fontWeight="bold" mt="24px" cursor="pointer">
+              <Text
+                color="blue.500"
+                fontWeight="bold"
+                mt="24px"
+                cursor="pointer"
+              >
                 Esqueci a senha
               </Text>
             </Link>
@@ -56,11 +61,11 @@ function Login() {
         </Flex>
       </Grid>
     </Fragment>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
-  const { stopalabAdminToken: token } = parseCookies(ctx);
+  const { stopalabAdminToken: token } = parseCookies(ctx)
 
   if (token) {
     return {
@@ -68,12 +73,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         destination: '/dashboard',
         permanent: false,
       },
-    };
+    }
   }
 
   return {
     props: {},
-  };
-};
+  }
+}
 
-export default Login;
+export default Login

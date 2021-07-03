@@ -1,6 +1,6 @@
-import type { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
-import { AuthProvider } from '../context/authContext';
+import type { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
+import { AuthProvider } from '../context/authContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -9,6 +9,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </AuthProvider>
     </ChakraProvider>
-  );
+  )
 }
-export default MyApp;
+export default MyApp

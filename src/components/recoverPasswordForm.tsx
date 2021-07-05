@@ -69,14 +69,33 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         },
       })
     } catch (e) {
-      toast({
-        description:
-          'Ocorreu um erro ao tentar redefinir sua senha verifique e tente novamente',
-        title: 'Algo deu errado...',
-        status: 'error',
-        position: 'top-right',
-        isClosable: true,
-      })
+      console.log()
+      if (e.response.data.message === 'Invalid token') {
+        toast({
+          description: 'O link que você utilizou contém um token inválido.',
+          title: 'Algo deu errado...',
+          status: 'error',
+          position: 'top-right',
+          isClosable: true,
+        })
+      } else if (e.response.data.message === 'Expired token') {
+        toast({
+          description: 'O link de recuperação expirou',
+          title: 'Algo deu errado...',
+          status: 'error',
+          position: 'top-right',
+          isClosable: true,
+        })
+      } else {
+        toast({
+          description:
+            'Ocorreu um erro ao tentar redefinir sua senha verifique e tente novamente',
+          title: 'Algo deu errado...',
+          status: 'error',
+          position: 'top-right',
+          isClosable: true,
+        })
+      }
     }
 
     setLoading(false)

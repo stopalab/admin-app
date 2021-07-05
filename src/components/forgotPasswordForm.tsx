@@ -67,7 +67,7 @@ export function ForgotPasswordForm() {
         description:
           'Ocorreu um erro ao tentar recuperar sua senha verifique o seu endereço de email e tente novamente',
         title: 'Algo deu errado...',
-        status: 'success',
+        status: 'error',
         position: 'top-right',
         isClosable: true,
       })

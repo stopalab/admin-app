@@ -4,6 +4,8 @@ import Head from 'next/head'
 import NextLink from 'next/link'
 import { ResetPasswordForm } from '../components/recoverPasswordForm'
 import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
+import { parseCookies } from 'nookies'
 
 export default function RecoverPasswordPage() {
   const { query } = useRouter()
@@ -72,4 +74,21 @@ export default function RecoverPasswordPage() {
       </Grid>
     </Fragment>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const { stopalabAdminToken: token } = parseCookies(ctx)
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
 }

@@ -18,6 +18,11 @@ interface FormInitialValues {
 }
 
 const yupSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required(errors.requiredField('email'))
+    .email(errors.login.invalidEmail),
+
   password: yup.string().required(errors.requiredField('senha')),
 })
 export function LoginForm() {
